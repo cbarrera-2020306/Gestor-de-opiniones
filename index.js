@@ -7,3 +7,6 @@
     config()
     initServer()
     connect()
+    import dotenv from 'dotenv';
+    dotenv.config();
+    

@@ -21,3 +21,24 @@ export const verifyClient = (req, res, next) => {
         return res.status(401).send({ message: 'Error verifying token or user role' });
     }
 };
+
+export const verifyAdmin = (req, res, next) => {
+    const token = req.headers['authorization']?.split(' ')[1];  // Obtener token del encabezado
+
+    if (!token) {
+        return res.status(403).send({ message: 'Token is required' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);  // Verificar token
+
+        if (decoded.role !== 'ADMIN') {
+            return res.status(403).send({ message: 'You do not have admin privileges' });
+        }
+
+        req.user = decoded;  // Guardar info del usuario en req
+        next();
+    } catch (err) {
+        return res.status(401).send({ message: 'Error verifying token or role' });
+    }
+};

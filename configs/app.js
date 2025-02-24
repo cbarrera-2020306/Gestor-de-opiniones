@@ -9,7 +9,10 @@ import express from 'express' //Servidor HTTP
 import morgan from 'morgan' //Logs
 import helmet from 'helmet' //Seguridad para HTTP
 import cors from 'cors' //Acceso al API
-// import userRoutes from '../src/user/user.routes.js'
+import userRoutes from '../src/user/user.routes.js'
+import categoryRoutes from "../src/category/category.routes.js"
+import commentRoutes from "../src/comment/comment.routes.js"
+import publicationRoutes from "../src/publication/publication.routes.js"
 import { limiter } from '../middlewares/rate.limit.js'
 
 const configs = (app)=>{
@@ -22,13 +25,16 @@ const configs = (app)=>{
 }
 
 const routes = (app)=>{
-    // app.use(authRoutes)
+    // app.use(userRoutes)
     //Buenas practicas de rutas
             //pre ruta general
-    // app.use('/v1/user', userRoutes)
+    app.use('/v1/user', userRoutes)
+    app.use('/v1/category', categoryRoutes)
+    app.use('/v1/publication', publicationRoutes)
+    app.use('/v1/comment', commentRoutes)
 }
 
-// ESModulesno acepta exports.
+// ESModules no acepta exports.
 export const initServer = async() => {
     const app = express() //Instancia de express
     try {
